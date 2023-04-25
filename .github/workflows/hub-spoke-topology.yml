@@ -44,4 +44,4 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az deployment group create -g vnet-hub-rg -f vnet-hub.bicep
+            az deployment group create -g vnet-hub-rg -f main.bicep
