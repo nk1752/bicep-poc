@@ -26,7 +26,7 @@ resource vnetHub 'Microsoft.Network/virtualNetworks@2022-09-01' = {
       {
         name: 'AzureBastionSubnet'
         properties: {
-          addressPrefix: addressPrefixAzureBastionSubnet
+          addressPrefix: '10.200.3.0/24'
         }
       }
       
