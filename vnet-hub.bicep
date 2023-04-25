@@ -1,5 +1,5 @@
 targetScope = 'resourceGroup'
-param location string = resourceGroup().location
+param location string
 
 var addressPrefixesVnetHub = '10.200.0.0/18'
 var addressPrefixAzureFireWallSubnet = '10.200.0.0/24'
