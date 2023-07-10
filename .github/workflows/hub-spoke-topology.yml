@@ -38,12 +38,10 @@ jobs:
 
       - name: interactive login
         uses: azure/CLI@v1
-
-
-      # Runs a single command using the runners shell
-      - name: deploy
-        uses: azure/arm-deploy@v1
+        
+      - name: Azure CLI script
+        uses: azure/CLI@v1
         with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          resourceGroupName: ${{ secrets.AZURE_RG }}
-          template: ./vnet-hub.bicep
+          azcliversion: 2.30.0
+          inlineScript: |
+            az deployment group create -g vnet-hub-rg -f main.bicep --mode complete

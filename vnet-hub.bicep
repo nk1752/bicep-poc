@@ -1,9 +1,9 @@
 targetScope = 'resourceGroup'
-param location string = resourceGroup().location
+param location string
 
 var addressPrefixesVnetHub = '10.200.0.0/18'
 var addressPrefixAzureFireWallSubnet = '10.200.0.0/24'
-var addressPrefixAzureBastionSubnet = '10.200.1.0/24'
+var addressPrefixAzureBastionSubnet = '10.200.3.0/24'
 
 resource vnetHub 'Microsoft.Network/virtualNetworks@2022-09-01' = {
   name: 'vnet-hub'
@@ -26,7 +26,7 @@ resource vnetHub 'Microsoft.Network/virtualNetworks@2022-09-01' = {
       {
         name: 'AzureBastionSubnet'
         properties: {
-          addressPrefix: addressPrefixAzureBastionSubnet
+          addressPrefix: '10.200.3.0/24'
         }
       }
       
