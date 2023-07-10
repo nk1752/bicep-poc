@@ -60,7 +60,7 @@ var aksPrincipalId = !empty(byoUaiName) ? byoAksUai.properties.principalId : cre
 //----------------------------------------------------- BYO Vnet
 var existingAksVnetRG = !empty(byoAKSSubnetId) ? (length(split(byoAKSSubnetId, '/')) > 4 ? split(byoAKSSubnetId, '/')[4] : '') : ''
 
-module aksnetcontrib './modules/aksnetcontrib.bicep' = if (!empty(byoAKSSubnetId) && createAksUai) {
+module aksnetcontrib './aksnetcontrib.bicep' = if (!empty(byoAKSSubnetId) && createAksUai) {
   name: take('${deployment().name}-addAksNetContributor',64)
   scope: resourceGroup(existingAksVnetRG)
   params: {
@@ -127,7 +127,7 @@ param CreateNetworkSecurityGroups bool = false
 @description('Configure Flow Logs for Network Security Groups in the NetworkWatcherRG resource group. Requires Contributor RBAC on NetworkWatcherRG and Reader on Subscription.')
 param CreateNetworkSecurityGroupFlowLogs bool = false
 
-module network './modules/network.bicep' = if (custom_vnet) {
+module network './network.bicep' = if (custom_vnet) {
   name: take('${deployment().name}-network',64)
   params: {
     resourceName: resourceName
