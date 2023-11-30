@@ -235,7 +235,7 @@ module aks_vnet_con 'networksubnetrbac.bicep' = if (!empty(aksPrincipleId)) {
 
 /*   --------------------------------------------------------------------------  Private Link for ACR      */
 var privateLinkAcrName = 'pl-acr-${resourceName}'
-resource privateLinkAcr 'Microsoft.Network/privateEndpoints@2021-08-01' = if (!empty(privateLinkAcrId)) {
+resource privateLinkAcr 'Microsoft.Network/privateEndpoints@2022-11-01' = if (!empty(privateLinkAcrId)) {
   name: privateLinkAcrName
   location: location
   properties: {

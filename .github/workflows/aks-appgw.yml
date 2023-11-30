@@ -1,4 +1,4 @@
-name: Azure ARM Bicep
+name: AKS Bicep Deployment
 
 # Controls when the workflow will run
 on: workflow_dispatch

@@ -1,0 +1,54 @@
+alias k=kubectl
+
+k create deploy nginx --image nginx
+k expose deploy nginx --port 80 --name nginx-svc
+k create secret tls frontend-tls-secret --key ./certbot/privkey1.pem --cert ./certbot/fullchain1.pem
+
+RESOURCE_GROUP='poc-cluster-rg'
+RESOURCE_NAME='alb-test'
+RESOURCE_ID=$(az network alb show --resource-group $RESOURCE_GROUP --name $RESOURCE_NAME --query id -o tsv)
+FRONTEND_NAME='frontend-byo'
+
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: gateway-ssl-termination
+  annotations:
+    alb.networking.azure.io/alb-id: $RESOURCE_ID
+spec:
+  gatewayClassName: azure-alb-external
+  listeners:
+  - name: https-listener
+    port: 443
+    protocol: HTTPS
+    allowedRoutes:
+      namespaces:
+        from: Same
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind : Secret
+        group: ""
+        name: frontend-tls-secret
+  addresses:
+  - type: alb.networking.azure.io/alb-frontend
+    value: $FRONTEND_NAME
+EOF
+
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: http-route-ssl-termination
+  namespace:
+spec:
+  parentRefs:
+  - name: gateway-ssl-termination
+  hostnames:
+  - "pocvivahealth.com"
+  rules:
+  - backendRefs:
+    - name: nginx-svc
+      port: 80
+EOF

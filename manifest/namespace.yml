@@ -1,0 +1,27 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: infra-ns
+  labels:
+    shared-gateway-access: "true"
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: prisma-prod-ns
+  labels:
+    shared-gateway-access: "true"
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: prisma-dev-ns
+  labels:
+    shared-gateway-access: "true"
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: prisma-staging-ns
+  labels:
+    shared-gateway-access: "true"    

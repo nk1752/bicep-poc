@@ -1,0 +1,23 @@
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1beta1
+metadata:
+  name: prisma-dev-route
+  namespace: prisma-ns
+spec:
+  parentRefs:
+  - name: shared-gateway
+    namespace: infra-ns
+  hostnames:
+    - "dev.pocvivahealth.com"
+
+  rules:
+    
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /dev
+    backendRefs:
+    - name: prisma-dev-svc
+      namespace: prisma-ns
+      port: 3000
+    

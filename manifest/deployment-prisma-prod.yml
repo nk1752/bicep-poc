@@ -1,0 +1,38 @@
+# deploy to usernode pool
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prisma-deployment
+  namespace: prisma-ns
+  labels:
+    app: prisma
+spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: prisma
+    template:
+      metadata:
+        labels:
+          app: prisma
+      spec:
+        # nodeSelector:
+        #  nodepool: userpool
+        containers:
+        - name: prisma
+          # Replace 1.0.0 with the version of your application that you are building
+          image: vhacr.azurecr.io/prisma:v0.1.0
+          # set image PullPolicy to Always to ensure that the latest image is pulled on deployment
+          imagePullPolicy: Always
+          
+          resources:
+            # 128Mi bytes of memory and 250 millicpu (1/4 cpu core)
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            # 256Mi bytes of memory and 500 millicpu (1/2 cpu core)
+            limits:
+                memory: "256Mi"
+                cpu: "500m"
+          ports:
+          - containerPort: 3000

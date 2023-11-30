@@ -1,0 +1,32 @@
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1beta1
+metadata:
+  name: prisma-route
+  namespace: prisma-ns
+spec:
+  parentRefs:
+  - name: shared-gateway
+    namespace: infra-ns
+  hostnames:
+    - "www.pocvivahealth.com"
+    - "staging.pocvivahealth.com"
+  rules:
+  
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: prisma-svc
+      namespace: prisma-ns
+      port: 3000
+    
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /staging
+    backendRefs:
+    - name: nginx-svc
+      namespace: nginx-ns
+      port: 3000
+    

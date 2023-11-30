@@ -1,0 +1,20 @@
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1beta1
+metadata:
+  name: nginx-route
+  namespace: nginx-ns
+spec:
+  parentRefs:
+  - name: shared-gateway
+    namespace: infra-ns
+  hostnames:
+    - "www.poc-viva.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: nginx-svc
+      namespace: nginx-ns
+      port: 3000

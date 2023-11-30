@@ -1,0 +1,23 @@
+az network vnet subnet show [--expand]
+                            [--ids]
+                            [--name]
+                            [--resource-group]
+                            [--subscription]
+                            [--vnet-name]
+
+az network vnet subnet show --subscription df2f960a-8e92-40ec-a2b8-0a2923d3c074 -g MC_bicep_rg --vnet-name vnet-aks-4250 -n aks-subnet-1
+
+az deployment group create -n deploybicep1 -g bicep-rg --template-file main.bicep
+
+# ACR
+kubectl describe pod <podname> -n <namespace>
+az acr check-health --name <myregistry> --ignore-errors --yes
+az aks check-acr --resource-group <MyResourceGroup> --name <MyManagedCluster> --acr <myacr>.azurecr.io
+
+az aks show --resource-group <myResourceGroup> --name <myAKSCluster> --query servicePrincipalProfile.clientId --output tsv
+
+# Attach using acr-name
+az aks update -n agfc-cluster -g agfc-rg --attach-acr vhacr
+
+# Attach using acr-resource-id
+az aks update -n myAKSCluster -g myResourceGroup --attach-acr <acr-resource-id>
